@@ -48,5 +48,8 @@ RUN tar -zxvf kindlegen_linux_2.6_i386_v2_9.tar.gz \
     && cp /tmp/kindlegen/kindlegen /usr/local/bin \
     && rm -rf /tmp/kindlegen
 
+RUN ln -s /usr/bin/nodejs /usr/local/bin/node
+
 ENV JRUBY_OPTS "--2.0 -X-C -J-XX:+TieredCompilation -J-XX:TieredStopAtLevel=1 -Xcompile.invokedynamic=false -J-noverify -Xcompile.mode=OFF -J-Xmx2048m -J-Xms2048m -J-Djava.awt.headless=true -J-Dapple.awt.UIElement=true -Xrewrite.java.trace=true"
+RUN gem update --system
 RUN gem update bundler
