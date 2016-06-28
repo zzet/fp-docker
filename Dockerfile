@@ -1,4 +1,4 @@
-FROM jruby:1.7-jdk
+FROM jruby:9.1-jdk
 MAINTAINER Andrey Kumanyaev <me@zzet.org>
 
 RUN apt-get update -qq
@@ -13,13 +13,13 @@ RUN useradd -m libreoffice; \
     && apt-get install -y --no-install-recommends wget \
                                                   libdbus-glib-1-2 \
                                                   libsm6 \
-                                                  openjdk-7-jre \
+                                                  openjdk-8-jre \
     && rm -rf /var/lib/apt/lists/*
 
-ENV LIBREOFFICEPACKAGE LibreOffice_5.1.2_Linux_x86-64_deb.tar.gz
-ENV LIBREOFFICEDIR LibreOffice_5.1.2.2_Linux_x86-64_deb
+ENV LIBREOFFICEPACKAGE LibreOffice_5.1.4_Linux_x86-64_deb.tar.gz
+ENV LIBREOFFICEDIR LibreOffice_5.1.4.2_Linux_x86-64_deb
 
-RUN wget -q http://mirror.switch.ch/ftp/mirror/tdf/libreoffice/stable/5.1.2/deb/x86_64/$LIBREOFFICEPACKAGE -O /tmp/$LIBREOFFICEPACKAGE \
+RUN wget -q http://mirror.switch.ch/ftp/mirror/tdf/libreoffice/stable/5.1.4/deb/x86_64/$LIBREOFFICEPACKAGE -O /tmp/$LIBREOFFICEPACKAGE \
     && mkdir /tmp/LibreOffice \
     && tar -xzf /tmp/$LIBREOFFICEPACKAGE -C /tmp/LibreOffice \
     && dpkg -i /tmp/LibreOffice/$LIBREOFFICEDIR/DEBS/*.deb \
@@ -49,5 +49,4 @@ RUN tar -zxvf kindlegen_linux_2.6_i386_v2_9.tar.gz \
     && rm -rf /tmp/kindlegen
 
 ENV JRUBY_OPTS "--2.0 -X-C -J-XX:+TieredCompilation -J-XX:TieredStopAtLevel=1 -Xcompile.invokedynamic=false -J-noverify -Xcompile.mode=OFF -J-Xmx2048m -J-Xms2048m -J-Djava.awt.headless=true -J-Dapple.awt.UIElement=true -Xrewrite.java.trace=true"
-
 RUN gem update bundler
